@@ -14,7 +14,7 @@ public class App {
 
         // The parameter "demoDb" matches the "name" of our data source, set in
         // src/META-INF/persistence.xml.
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("museumDb");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("project3Db");
         EntityManager em = factory.createEntityManager();
 
         // The EntityManager object lets us find, create, update, and delete individual
@@ -113,7 +113,7 @@ public class App {
 
     // These demos show how to navigate associations.
     private static void associationDemos() {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("museumDb");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("project3Db");
         EntityManager em = factory.createEntityManager();
 
 //
@@ -206,16 +206,7 @@ public class App {
 //                + " on " + visit.getVisitDate());
 //        }
 
-        Visitor molaa = em.find(Visitor.class,1);
-        //ArtPiece  t = em.find(ArtPiece.class,1);
-        for (Viewing visit : molaa.getView()) {
 
-            for(Viewing g : molaa.getView())
-            {
-                System.out.println(g);
-            }
-            System.out.println(molaa);
-        }
 //
 //        Visitor molaa = em.find(Visitor.class, 1);
 //        Viewing og = em.find(Viewing.class,1);
@@ -249,7 +240,7 @@ public class App {
     // These demos show the importance of overriding .equals and .hashCode.
 
     private static void equalityDemos() {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("museumDb");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("project3Db");
         EntityManager em = factory.createEntityManager();
 
        return;

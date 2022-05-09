@@ -8,14 +8,25 @@ import java.util.Set;
 public class Package {
 
     @Id
+  //  @Column(name = "package_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int package_ID;
 
     @Column(length = 35)
     private String name;
 
-    @OneToMany(mappedBy = "package_")
-    private Set<Package_Feature> package_feature;
 
+//    @OneToMany(mappedBy = "package_ID")
+//    private Set<Trim> package_;
 
+    @OneToMany(mappedBy = "package_ID")     //CHECK
+    private Set<AvailablePackage> availablePackages;
+
+    @ManyToMany
+    @JoinTable(
+            name = "package_feature",
+            joinColumns = @JoinColumn(name = "package_ID"),
+            inverseJoinColumns = @JoinColumn(name = "feature_ID")
+    )
+    private Set<Feature> features;
 }

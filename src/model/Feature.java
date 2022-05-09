@@ -8,16 +8,12 @@ import java.util.Set;
 public class Feature {
 
     @Id
+  //  @Column(name = "feature_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int feature_ID;
 
-    @Column(length = 35)
+    @Column(length = 35,unique=true)
     private String name;
 
-    @OneToMany(mappedBy = "feature")
-    private Set<Package_Feature> package_feature;
-
-    @OneToMany(mappedBy = "feature")
-    private Set<Trim_Feature> feature_trim;
 
 }
