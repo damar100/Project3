@@ -2,6 +2,8 @@ package model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -23,6 +25,7 @@ public class Model {
     //@Column(name = "year")
     private int year;
 
+
     @OneToMany(mappedBy = "model")      //CHECK
     private List<Trim> trims;
 
@@ -33,4 +36,51 @@ public class Model {
             inverseJoinColumns = @JoinColumn(name = "feature_ID")
     )
     private Set<Feature> features;
+
+    public Model() {
+    }
+
+    public Model(String name, int year) {
+        this.name = name;
+        this.year = year;
+        features = new HashSet<Feature>();
+        trims = new ArrayList<Trim>();
+
+    }
+
+    public int getModel_ID() {
+        return model_ID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public List<Trim> getTrims() {
+        return trims;
+    }
+
+    public Set<Feature> getFeatures() {
+        return features;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public void setTrims(List<Trim> trims) {
+        this.trims = trims;
+    }
+
+    public void setFeatures(Set<Feature> features) {
+        this.features = features;
+    }
 }

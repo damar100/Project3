@@ -1,254 +1,241 @@
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 import jakarta.persistence.*;
 import model.*;
+import model.Package;
+import org.postgresql.shaded.com.ongres.scram.common.bouncycastle.pbkdf2.Pack;
 
 import javax.swing.text.View;
 
 public class App {
     // These demos show finding, creating, and updating individual objects.
-    private static void basicDemos() {
+    private static void inserting() {
         // In true Java fashion, we can't just create an EntityManager; we have to first
         // create a Factory that can then create the Manager. Don't ask me why.
 
         // The parameter "demoDb" matches the "name" of our data source, set in
         // src/META-INF/persistence.xml.
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("project3Db");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("Project3DB");
         EntityManager em = factory.createEntityManager();
+        em.getTransaction().begin();
+//--------------------features----------------\\
+        Feature LeatherSeats = new Feature("leather seats");
 
-        // The EntityManager object lets us find, create, update, and delete individual
-        // instances of our entity classes.
+        Feature HybridEngine = new Feature("plug-in hybrid engine");
+
+        Feature PowerSlidingDoors = new Feature("power sliding doors");
+
+        Feature HandsFreeSlidingDoors = new Feature("hands-free sliding doors");
+
+        Feature FireTV = new Feature("Amazon FireTV");
+
+        Feature RearScreens = new Feature("rear-seat entertainment screens");
+
+        Feature AWD = new Feature("all-wheel drive");
+
+        Feature CruiseControl = new Feature("adaptive cruise control");
+
+        Set<Feature> featureSet = new HashSet<Feature>(Arrays.asList(LeatherSeats,
+                HybridEngine,PowerSlidingDoors,HandsFreeSlidingDoors,FireTV,RearScreens,AWD,CruiseControl));
+        for (Feature fs : featureSet){
+            em.persist(fs);
+        }
+
+//-------------------packages----------------\\
+
+
+//        Package Theater = new Package("Theater Package");
+//        Theater.setFeatures(CruiseControl);
 //
-//        System.out.println("Example 1: find an entity based on its primary key.");
-//        Museum firstMuseum = em.find(Museum.class, 4); // parameter 2: the primary key value.
-//        if (firstMuseum != null) {
-//            System.out.println("Museum with ID 4: " + firstMuseum);
-//        }
-//        else {
-//            System.out.println("There is no museum with ID 4");
-//        }
+//     //   em.persist(newPackage);
+//          features.removeAll(features);
+//
+//        features.add(newFeature6);
+//        Package newPackage2 = new Package("Amazon Theater Package");
+//     //   em.persist(newPackage2);
+//         features.removeAll(features);
+//
+//        features.add(newFeature5);
+//        Package newPackage3 = new Package("Amazon Theater Package");
+//    //    em.persist(newPackage3);
+//          features.removeAll(features);
+//
+//        features.add(newFeature8);
+//        Package newPackage4 = new Package("Safety Package");
+//     //   em.persist(newPackage4);
+//          features.removeAll(features);
+
+        // public Model(String name, int year,  Set<Feature> features ,List<Trim> trims)  for trim set:  public Trim(String name, float cost, Model model)
+        // for available packages classs   public AvailablePackage(Package package_ID,float cost, Trim trim)
+        //for first pacifica car model
+//----------------models----------------\\
+
+        Model pacifica = new Model("Pacifica", 2022);
+
+        Model pacificaHybrid22 = new Model("Pacifica Hybrid", 2022);
+
+        Model pacificaHybrid21 = new Model("Pacifica Hybrid", 2021);
+
+
+//----------------moodel features----------------\\
+
+        HashSet<Feature> pacificaFeatures = new HashSet<Feature>();
+        pacificaFeatures.add(PowerSlidingDoors);
+        pacifica.setFeatures(pacificaFeatures);
+
+        HashSet<Feature> pacificaH22Features = new HashSet<Feature>();
+        pacificaH22Features.add(PowerSlidingDoors);
+        pacificaH22Features.add(HybridEngine);
+        pacificaHybrid22.setFeatures(pacificaH22Features);
+
+        HashSet<Feature> pacificaH21Features = new HashSet<Feature>();
+        pacificaH21Features.add(PowerSlidingDoors);
+        pacificaH21Features.add(HybridEngine);
+        pacificaHybrid21.setFeatures(pacificaH21Features);
+
+//----------------packages----------------\\
+        HashSet<Feature> Theater = new HashSet<Feature>();
+        Package theater = new Package("Theater Package");
+        HashSet<Feature> Amazon = new HashSet<Feature>();
+        Package amazon = new Package("Amazon Theater Package");
+        HashSet<Feature> Safety = new HashSet<Feature>();
+        Package safety = new Package("Safety Package");
+
+        Theater.add(RearScreens);
+        Amazon.add(FireTV);
+        Amazon.add(RearScreens);
+        Safety.add(CruiseControl);
+
+        theater.setFeatures(Theater);
+        amazon.setFeatures(Amazon);
+        safety.setFeatures(Safety);
+
+
+//----------------trims----------------\\
+//PACIFICA 2022
+        HashSet<Package> trimtouring1 = new HashSet<Package>();
+        Trim touring1 = new Trim("Touring", 30000, pacifica);
+        trimtouring1.add(safety);
+
+        HashSet<Package> trimlimited1 = new HashSet<Package>();
+        HashSet<Feature> trimlimited1F = new HashSet<Feature>();
+        Trim limited1 = new Trim("Limited", 34000, pacifica);
+        trimlimited1.add(amazon);
+        trimlimited1F.add(LeatherSeats);
+        trimlimited1F.add(HandsFreeSlidingDoors);
+
+        HashSet<Feature> trimpinnacle1F = new HashSet<Feature>();
+        Trim pinnacle1 = new Trim("Pinnacle", 42000, pacifica);
+        trimpinnacle1F.add(LeatherSeats);
+        trimpinnacle1F.add(HandsFreeSlidingDoors);
+        trimpinnacle1F.add(RearScreens);
+        trimpinnacle1F.add(FireTV);
+        trimpinnacle1F.add(AWD);
+
+
+//PACIFICA Hybrid 2022
+
+        Trim touring2 = new Trim("Touring", 43000, pacificaHybrid22);
+
+
+        HashSet<Package> trimlimited2 = new HashSet<Package>();
+        HashSet<Feature> trimlimited2F = new HashSet<Feature>();
+        Trim limited2 = new Trim("Limited", 48000, pacifica);
+        trimlimited2.add(amazon);
+        trimlimited2F.add(LeatherSeats);
+        trimlimited2F.add(HandsFreeSlidingDoors);
+
+        HashSet<Feature> trimpinnacle2F = new HashSet<Feature>();
+        Trim pinnacle2 = new Trim("Pinnacle", 34000, pacificaHybrid22);
+        trimpinnacle2F.add(LeatherSeats);
+        trimpinnacle2F.add(HandsFreeSlidingDoors);
+        trimpinnacle2F.add(RearScreens);
+        trimpinnacle2F.add(FireTV);
+
+
+
+
+//PACIFICA Hybrid 2021
+        HashSet<Package> trimtouring3 = new HashSet<Package>();
+        Trim touring3 = new Trim("Touring", 41000, pacificaHybrid21);
+        trimtouring3.add(safety);
+
+        HashSet<Package> trimlimited3 = new HashSet<Package>();
+        HashSet<Feature> trimlimited3F = new HashSet<Feature>();
+        Trim limited3 = new Trim("Limited", 46000, pacificaHybrid21);
+        trimlimited3.add(theater);
+        trimlimited3.add(safety);
+        trimlimited3F.add(LeatherSeats);
+        trimlimited3F.add(HandsFreeSlidingDoors);
+
+        HashSet<Feature> trimpinnacle3F = new HashSet<Feature>();
+        Trim pinnacle3 = new Trim("Pinnacle", 52000, pacificaHybrid21);
+        trimpinnacle3F.add(LeatherSeats);
+        trimpinnacle3F.add(HandsFreeSlidingDoors);
+        trimpinnacle3F.add(RearScreens);
+        trimpinnacle3F.add(CruiseControl);
+
+//        pacifica.setTrims(pinnacle3);
 //
 //
-//        // The next "if" block will protect me if I run this code multiple times.
-//        // Otherwise we'll keep trying to create an object with a non-unique primary key,
-//        // and crash the program.
-//        if (firstMuseum == null) {
-//            System.out.println();
-//            System.out.println("Example 2: creating a new entity.");
 //
-//            // We must begin and later end a transaction when modifying the database.
-//            em.getTransaction().begin();
+//        pacifica1.addTrim(touring1);
+//        pacifica1.addTrim(limited1);
+//        pacifica1.addTrim(pinnacle1);
 //
-//            Museum newMuseum = new Museum(4, "Metropolitan Museum of Art of New York City",
-//                "New York, NY");
-//            // The previous line just creates an object. It's not in the database yet.
-//            // The next line tells JPA to "stage" the object
-//            em.persist(newMuseum);
+//        pacifica2.addTrim(touring2);
+//        pacifica2.addTrim(limited2);
+//        pacifica2.addTrim(pinnacle2);
 //
-//            // Committing the transaction will push/"flush" the changes to the database.
-//            em.getTransaction().commit();
-//            System.out.println("Museum " + newMuseum + " added to database. Go check DataGrip if you don't believe me!");
-//
-//            // Example 3: updating an entity.
-//            Museum fromDatabase = em.find(Museum.class, 4);
-//            em.getTransaction().begin();
-//            fromDatabase.setLocation("Manhattan, New York, NY");
-//            // This object is already staged, since it was retrieved from the EntityManager.
-//            // We just need to flush the change.
-//            em.getTransaction().commit();
-//        }
-//
-//        System.out.println();
-//        System.out.println("Example #3: retrieving an object without its primary key");
-//        // EntityManager.find can only look at primary keys. To do other queries,
-//        // we have to write "JPQL" -- a language very similar to SQL.
-//
-//        // Suppose we want to find "Museum of Latin American Art". We'd write this query:
-//        // SELECT * FROM MUSEUMS WHERE NAME = 'Museum of Latin American Art'
-//
-//        // JPA doesn't use SQL; it uses JPQL, which doesn't select from arbitrary tables,
-//        // but instead selects from the entity types known to JPA, like MUSEUMS.
-//        String jpaQuery = "SELECT m FROM museums m WHERE m.location = " +
-//            "'Manhattan, New York, NY'";
-//
-//
-//        // The important bit is "MUSEUMS m"; this tells the query to iterate over the
-//        // MUSEUMS table one row at a time, temporarily calling each row "m". We can then
-//        // refer to "m" like it's an object, in order to select a row or filter based
-//        // on its columns.
-//
-//        // createQuery returns a Query object, which can be executed with getSingleResult
-//        // if it always returns <= 1 object.
-//        Museum molaa = em.createQuery(jpaQuery, Museum.class).getSingleResult();
-//        System.out.println("MOLAA retrieved: " + molaa);
-//
-//        // If we want to SAFELY involve user input, we use a TypedQuery.
-//        Scanner input = new Scanner(System.in);
-//        System.out.println("Please enter a museum name: ");
-//        String name = input.nextLine();
-//
-//        // A TypedQuery is strongly typed; a normal Query would not be.
-//        var namedMuseum = em.createQuery("SELECT m FROM museums m WHERE "
-//            + "m.name = ?1", Museum.class);
-//        namedMuseum.setParameter(1, name);
-//        try {
-//            Museum requested = namedMuseum.getSingleResult();
-//            System.out.println("Your requested museum: " + requested);
-//        }
-//        catch (NoResultException ex) {
-//            System.out.println("Museum with name '" + name + "' not found.");
-//        }
-//
-//        System.out.println();
-//        System.out.println("Example #4: Using JPQL to select all museums");
-//        // This is simple. Just omit the WHERE, and use .getResultList().
-//        var museums = em.createQuery("select m from museums m", Museum.class).getResultList();
-//
-//        for (Museum m : museums) {
-//            System.out.println(m);
-//        }
+//        pacifica3.addTrim(touring3);
+//        pacifica3.addTrim(limited3);
+//        pacifica3.addTrim(pinnacle3);
+
+
+//---------------------available packages ----------------------------------------------\\
+        AvailablePackage AP1 = new AvailablePackage(safety,3000,touring1);
+        AvailablePackage AP2 = new AvailablePackage(theater,2500,limited1);
+        AvailablePackage AP3 = new AvailablePackage(theater,2500,limited2);
+        AvailablePackage AP4 = new AvailablePackage(safety,3000,touring3);
+        AvailablePackage AP5 = new AvailablePackage(theater,2500,limited3);
+        AvailablePackage AP6 = new AvailablePackage(safety,2000,limited3);
+
+//---------Automobiles-----------\\
+
+
+
+
+//---------PERSISTING-----------\\
+        em.persist(pacifica);
+        em.persist(pacificaHybrid22);
+        em.persist(pacificaHybrid21);
+        em.persist(theater);
+        em.persist(amazon);
+        em.persist(safety);
+        em.persist(touring1);
+        em.persist(limited1);
+        em.persist(pinnacle1);
+        em.persist(touring2);
+        em.persist(limited2);
+        em.persist(pinnacle2);
+        em.persist(touring3);
+        em.persist(limited3);
+        em.persist(pinnacle3);
+        em.persist(AP1);
+        em.persist(AP2);
+        em.persist(AP3);
+        em.persist(AP4);
+        em.persist(AP5);
+        em.persist(AP6);
+        em.getTransaction().commit();
     }
-
-
-    // These demos show how to navigate associations.
-    private static void associationDemos() {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("project3Db");
-        EntityManager em = factory.createEntityManager();
-
-//
-//
-//        System.out.println();
-//        System.out.println("Example #5: Navigating a one-to-one association");
-//        // With the annotations set up, navigating from one object to its associated
-//        // object is a breeze!
-//
-//        Museum molaa = em.find(Museum.class, 1);
-//        // Museum has a superintendent field that we can access to follow the association:
-//        System.out.println("MOLAA's Superintendent: " + molaa.getSuperintendent());
-//
-//        Superintendent sup = em.find(Superintendent.class, 1);
-        //System.out.println("Superindendent #1: " + sup + " works at museum " + sup.getMuseum());
-
-        // We can also query a Superintendent for a specific Museum:
-        //sup = em.createQuery("SELECT s FROM SUPERINTENDENTS s " +
-        //    "WHERE s.museum.museumId = 1", Superintendent.class).getSingleResult();
-
-        // REMINDER: JPA is interested in Java objects, not SQL tables.
-        // JPQL lets us navigate between objects using "." notation like accessing fields.
-        // Instead of using column names like MUSEUM_ID, we use field names from
-        // the appropriate class(es).
-        //System.out.println("The superintendent for Museum #1: " + sup);
-
-//
-//        System.out.println();
-//        System.out.println("Example #6: Navigating a one-to-many association");
-//
-//        System.out.println("MOLAA's Buildings:");
-//        for (Building b : molaa.getBuildings()) {
-//            System.out.println(b);
-//        }
-//
-//        System.out.println();
-//        // In a bidirectional association, we can also walk from the Many to the One...
-//        Building bu = em.find(Building.class, 1);
-//        System.out.println(bu + " is in Museum " + bu.getMuseum());
-
-//        System.out.println("hw #1 sql ");
-//        // In a bidirectional association, we can also walk from the Many to the One...
-//        Building bu = em.find(Building.class, 1);
-//        System.out.println(bu + " is in Museum " + bu.getMuseum());
-//
-//        // ... or even find the Many objects based on the One they are associated with.
-//        var buildings = em.createQuery("SELECT b FROM BUILDINGS b " +
-//            "WHERE b.museum.museumId = 1", Building.class).getResultList();
-//
-//        System.out.println("MOLAA's Buildings, using a query:");
-//        for (Building b : buildings) {
-//            System.out.println(b);
-//        }
-
-//        var buildings = em.createQuery("SELECT b FROM artpieces b " +
-//        "WHERE b.building.buildingId = 1", ArtPiece.class).getResultList();
-//        System.out.println();
-//        System.out.println("accessing ArtPiece objects based on building_id (1)");
-//        System.out.println();
-//        for (ArtPiece b : buildings) {
-//            System.out.println(b);
-//
-//        }
-
-//        var viewingz = em.createQuery("SELECT b FROM viewings b " +
-//        "WHERE b.viewing.visitor_id = 1", Viewing.class).getResultList();
-//        System.out.println();
-//        System.out.println("accessing ArtPiece objects based on building_id (1)");
-//        System.out.println();
-//        for (Viewing b : viewingz) {
-//            System.out.println(b);
-//
-//        }
-
-//
-//        System.out.println();
-
-//        System.out.println("Example #7: Navigating a many-to-many association");
-//        System.out.println("The Members of " + molaa + ":");
-//        for (Visitor v : molaa) {
-//            System.out.println(v);
-//
-//            for (Viewing m : v.getVisitorId()) {
-//                System.out.println("\tmember of " + m + " ");
-//            }
-//        }
-//
-//        for (MuseumVisit visit : molaa.getVisits()) {
-//            System.out.println(visit.getVisitor() + " went to " + visit.getMuseum()
-//                + " on " + visit.getVisitDate());
-//        }
-
-
-//
-//        Visitor molaa = em.find(Visitor.class, 1);
-//        Viewing og = em.find(Viewing.class,1);
-//        Viewing neal = em.find(Viewing.class, 1);
-//        for (ArtPiece art : neal.getClass()) {
-//            System.out.println(neal + " went to " + visit.getMuseum()
-//                + " on " + visit.getVisitDate());
-//        }
-
-//        for (Viewing visit : molaa.getView()) {
-//            System.out.println(molaa.getName() + " went to " + molaa.getVisitorId()
-//                + " on " + molaa.getVisitorId());
-//        }
-
-//            for (Viewing v : molaa) {
-//            System.out.println(v);
-//
-//            for (Visitor m : v.getClass()) {
-//                System.out.println("\tmember of " + m + " ");
-//            }
-//        }
-
-//
-//        ArtPiece art = em.createQuery(jpaQuery, ArtPiece.class).getSingleResult();
-//        System.out.println("MOLAA retrieved: " + molaa);
-    //   System.exit(0);
-
-
-    }
-
-    // These demos show the importance of overriding .equals and .hashCode.
-
-    private static void equalityDemos() {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("project3Db");
-        EntityManager em = factory.createEntityManager();
-
-       return;
-    }
-
     public static void main(String[] args) throws Exception {
       //  basicDemos();
-        associationDemos();
+    //    associationDemos();
         //equalityDemos();
+        inserting();
     }
 }
+
+
+

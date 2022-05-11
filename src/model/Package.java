@@ -2,6 +2,8 @@ package model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "Packages")
@@ -12,7 +14,7 @@ public class Package {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int package_ID;
 
-    @Column(length = 35)
+    @Column(length = 35,nullable = false)
     private String name;
 
 
@@ -29,4 +31,42 @@ public class Package {
             inverseJoinColumns = @JoinColumn(name = "feature_ID")
     )
     private Set<Feature> features;
+
+    public Package() {
+    }
+
+    public Package(String name) {
+        this.name = name;
+        features = new HashSet<Feature>();
+        availablePackages = new HashSet<AvailablePackage>();
+    }
+
+
+    public int getPackage_ID() {
+        return package_ID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Set<AvailablePackage> getAvailablePackages() {
+        return availablePackages;
+    }
+
+    public Set<Feature> getFeatures() {
+        return features;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAvailablePackages(Set<AvailablePackage> availablePackages) {
+        this.availablePackages = availablePackages;
+    }
+
+    public void setFeatures(Set<Feature> features) {
+        this.features = features;
+    }
 }

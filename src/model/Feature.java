@@ -15,5 +15,22 @@ public class Feature {
     @Column(length = 35,unique=true)
     private String name;
 
+    public Feature() {
+    }
 
+    public Feature(String name) {
+        this.name = name;
+    }
+
+    public int getFeature_ID() {
+        return feature_ID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
