@@ -175,21 +175,6 @@ public class App {
         trimpinnacle3F.add(RearScreens);
         trimpinnacle3F.add(CruiseControl);
 
-//        pacifica.setTrims(pinnacle3);
-//
-//
-//
-//        pacifica1.addTrim(touring1);
-//        pacifica1.addTrim(limited1);
-//        pacifica1.addTrim(pinnacle1);
-//
-//        pacifica2.addTrim(touring2);
-//        pacifica2.addTrim(limited2);
-//        pacifica2.addTrim(pinnacle2);
-//
-//        pacifica3.addTrim(touring3);
-//        pacifica3.addTrim(limited3);
-//        pacifica3.addTrim(pinnacle3);
 
 
 //---------------------available packages ----------------------------------------------\\
