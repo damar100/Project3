@@ -19,8 +19,8 @@ public class Automobile {
     @Column(length = 25,unique=true)
     private String vin;
 
-    @Column(length = 15)
-    private String color;
+//    @Column(length = 15)
+//    private String color;
 
 
     @ManyToOne
@@ -39,9 +39,8 @@ public class Automobile {
 
     }
 
-    public Automobile(String vin, String color, Trim trim) {
+    public Automobile(String vin, Trim trim) {
         this.vin = vin;
-        this.color = color;
         this.trim = trim;
         chosenpackages = new HashSet<AvailablePackage>();
     }
@@ -54,9 +53,6 @@ public class Automobile {
         return vin;
     }
 
-    public String getColor() {
-        return color;
-    }
 
     public Trim getTrim() {
         return trim;
@@ -68,10 +64,6 @@ public class Automobile {
 
     public void setVin(String vin) {
         this.vin = vin;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
     }
 
     public void setTrim(Trim trim) {

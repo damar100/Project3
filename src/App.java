@@ -8,16 +8,13 @@ import org.postgresql.shaded.com.ongres.scram.common.bouncycastle.pbkdf2.Pack;
 import javax.swing.text.View;
 
 public class App {
-    // These demos show finding, creating, and updating individual objects.
-    private static void inserting() {
-        // In true Java fashion, we can't just create an EntityManager; we have to first
-        // create a Factory that can then create the Manager. Don't ask me why.
 
-        // The parameter "demoDb" matches the "name" of our data source, set in
-        // src/META-INF/persistence.xml.
+    private static void Instantiate() {
+
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("Project3DB");
         EntityManager em = factory.createEntityManager();
         em.getTransaction().begin();
+
 //--------------------features----------------\\
         Feature LeatherSeats = new Feature("leather seats");
 
@@ -41,33 +38,8 @@ public class App {
             em.persist(fs);
         }
 
-//-------------------packages----------------\\
 
 
-//        Package Theater = new Package("Theater Package");
-//        Theater.setFeatures(CruiseControl);
-//
-//     //   em.persist(newPackage);
-//          features.removeAll(features);
-//
-//        features.add(newFeature6);
-//        Package newPackage2 = new Package("Amazon Theater Package");
-//     //   em.persist(newPackage2);
-//         features.removeAll(features);
-//
-//        features.add(newFeature5);
-//        Package newPackage3 = new Package("Amazon Theater Package");
-//    //    em.persist(newPackage3);
-//          features.removeAll(features);
-//
-//        features.add(newFeature8);
-//        Package newPackage4 = new Package("Safety Package");
-//     //   em.persist(newPackage4);
-//          features.removeAll(features);
-
-        // public Model(String name, int year,  Set<Feature> features ,List<Trim> trims)  for trim set:  public Trim(String name, float cost, Model model)
-        // for available packages classs   public AvailablePackage(Package package_ID,float cost, Trim trim)
-        //for first pacifica car model
 //----------------models----------------\\
 
         Model pacifica = new Model("Pacifica", 2022);
@@ -123,6 +95,7 @@ public class App {
         trimlimited1.add(amazon);
         trimlimited1F.add(LeatherSeats);
         trimlimited1F.add(HandsFreeSlidingDoors);
+        limited1.setFeatures(trimlimited1F);
 
         HashSet<Feature> trimpinnacle1F = new HashSet<Feature>();
         Trim pinnacle1 = new Trim("Pinnacle", 42000, pacifica);
@@ -131,6 +104,7 @@ public class App {
         trimpinnacle1F.add(RearScreens);
         trimpinnacle1F.add(FireTV);
         trimpinnacle1F.add(AWD);
+        pinnacle1.setFeatures(trimpinnacle1F);
 
 
 //PACIFICA Hybrid 2022
@@ -144,6 +118,7 @@ public class App {
         trimlimited2.add(amazon);
         trimlimited2F.add(LeatherSeats);
         trimlimited2F.add(HandsFreeSlidingDoors);
+        limited2.setFeatures(trimlimited2F);
 
         HashSet<Feature> trimpinnacle2F = new HashSet<Feature>();
         Trim pinnacle2 = new Trim("Pinnacle", 34000, pacificaHybrid22);
@@ -151,7 +126,7 @@ public class App {
         trimpinnacle2F.add(HandsFreeSlidingDoors);
         trimpinnacle2F.add(RearScreens);
         trimpinnacle2F.add(FireTV);
-
+        pinnacle2.setFeatures(trimpinnacle2F);
 
 
 
@@ -167,6 +142,7 @@ public class App {
         trimlimited3.add(safety);
         trimlimited3F.add(LeatherSeats);
         trimlimited3F.add(HandsFreeSlidingDoors);
+        limited3.setFeatures(trimlimited3F);
 
         HashSet<Feature> trimpinnacle3F = new HashSet<Feature>();
         Trim pinnacle3 = new Trim("Pinnacle", 52000, pacificaHybrid21);
@@ -174,7 +150,7 @@ public class App {
         trimpinnacle3F.add(HandsFreeSlidingDoors);
         trimpinnacle3F.add(RearScreens);
         trimpinnacle3F.add(CruiseControl);
-
+        pinnacle3.setFeatures(trimpinnacle3F);
 
 
 //---------------------available packages ----------------------------------------------\\
@@ -186,6 +162,29 @@ public class App {
         AvailablePackage AP6 = new AvailablePackage(safety,2000,limited3);
 
 //---------Automobiles-----------\\
+
+        Set<AvailablePackage> chosen1 = new HashSet<AvailablePackage>();
+        Automobile car1 = new Automobile("12345abcde",limited1);
+        chosen1.add(AP1);
+        car1.setAvailablePackages(chosen1);
+
+        Set<AvailablePackage> chosen2 = new HashSet<AvailablePackage>();
+        Automobile car2 = new Automobile("67890abcde",pinnacle2);
+
+        Set<AvailablePackage> chosen3 = new HashSet<AvailablePackage>();
+        Automobile car3 = new Automobile("99999aaaaa",pinnacle3);
+
+        Set<AvailablePackage> chosen4 = new HashSet<AvailablePackage>();
+        Automobile car4 = new Automobile("aaaaa88888",touring3);
+        chosen1.add(AP4);
+        car4.setAvailablePackages(chosen4);
+
+        Set<AvailablePackage> chosen5 = new HashSet<AvailablePackage>();
+        Automobile car5 = new Automobile("bbbbb77777",limited3);
+        chosen1.add(AP5);
+        chosen1.add(AP6);
+        car5.setAvailablePackages(chosen5);
+
 
 
 
@@ -212,13 +211,47 @@ public class App {
         em.persist(AP4);
         em.persist(AP5);
         em.persist(AP6);
+        em.persist(car1);
+        em.persist(car2);
+        em.persist(car3);
+        em.persist(car4);
+        em.persist(car5);
         em.getTransaction().commit();
     }
+    public static void VINlookUp()
+    {
+        Scanner scanny = new Scanner(System.in);
+        System.out.println("Enter the VIN of desired automobile ");
+        String VIN = scanny.nextLine();
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("Project3DB");
+        EntityManager em = factory.createEntityManager();
+
+
+        var namedAutomobile = em.createQuery("SELECT m FROM Automobiles m WHERE "
+                + "m.VIN = ?1", Automobile.class);
+        namedAutomobile.setParameter(1, VIN);
+        try {
+            Automobile requested = namedAutomobile.getSingleResult();
+            System.out.println("Your requested : " + requested);
+        }
+        catch (NoResultException ex) {
+            System.out.println("Museum with name '" + VIN + "' not found.");
+        }
+    }
     public static void main(String[] args) throws Exception {
-      //  basicDemos();
-    //    associationDemos();
-        //equalityDemos();
-        inserting();
+
+        Instantiate();
+        Scanner scanny = new Scanner(System.in);
+        System.out.println("Enter your choice: \n" + "1. Instantiate model \n" + "2. Automobile lookup \n" + "3. Feature search \n");
+        int choice = scanny.nextInt();
+        if(choice == 1)
+        {
+            Instantiate();
+        }
+        else if(choice ==2)
+        {
+            VINlookUp();
+        }
     }
 }
 
