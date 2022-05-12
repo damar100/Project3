@@ -220,12 +220,25 @@ public class App {
     }
     public static void VINlookUp()
     {
+
+//        EntityManagerFactory factory = Persistence.createEntityManagerFactory("project3");
+//        EntityManager em = factory.createEntityManager();
+//        Scanner plsss = new Scanner(System.in);
+//        System.out.println("Enter the VIN of an automobile. (I tested with 12345abcde)");
+//        //String userName = plsss.nextLine();
+//        //Automobile testCar = em.find(Automobile.class, userName);
+//        Automobile testCar = em.find(Automobile.class, "12345abcde");
+//        System.out.println(testCar);
+//        System.out.println(testCar.getTrim().getModel().getYear()
+//                + " " + testCar.getTrim().getModel().getName()
+//                + " " + testCar.getTrim().getName());
+//        System.out.println(testCar.stickerPrice());
+
         Scanner scanny = new Scanner(System.in);
-        System.out.println("Enter the VIN of desired automobile ");
-        String VIN = scanny.nextLine();
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("Project3DB");
         EntityManager em = factory.createEntityManager();
-
+        System.out.println("Enter the VIN of desired automobile ");
+        String VIN = scanny.nextLine();
 
         var namedAutomobile = em.createQuery("SELECT m FROM Automobiles m WHERE "
                 + "m.VIN = ?1", Automobile.class);
