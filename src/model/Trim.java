@@ -33,7 +33,7 @@ public class Trim {
     @JoinColumn(name = "model_ID")      //CHECK
     private Model model;
 
-    @ManyToMany             //check
+    @ManyToMany      //check
     @JoinTable(
             name = "trim_feature",
             joinColumns = @JoinColumn(name = "trim_ID"),
@@ -76,7 +76,7 @@ public class Trim {
     }
 
     public Set<Feature> getFeatures() { //maybe change back to return features;
-        return model.getFeatures(); // model.getFeatures();
+        return features; // model.getFeatures();
     }
 
     public void setName(String name) {

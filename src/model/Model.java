@@ -29,7 +29,7 @@ public class Model {
     @OneToMany(mappedBy = "model")      //CHECK
     private List<Trim> trims;
 
-    @ManyToMany     //check
+    @ManyToMany
     @JoinTable(
             name = "model_feature",
             joinColumns = @JoinColumn(name = "model_ID"),

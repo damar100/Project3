@@ -85,11 +85,11 @@ public class Automobile {
 
     public double stickerPrice()
     {
-
+        Set<AvailablePackage> ap1 = new HashSet<AvailablePackage>();
         float sum = 0;
-        float sum2 = getTrim().getCost();
+        float sum2 = trim.getCost();
         for (AvailablePackage ap : chosenpackages){
-            sum = ap.getCost() + sum;
+            sum = ap.getCost() ;
         }
         return sum + sum2;
     }

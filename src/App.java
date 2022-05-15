@@ -55,15 +55,18 @@ public class App {
         pacificaFeatures.add(PowerSlidingDoors);
         pacifica.setFeatures(pacificaFeatures);
 
+
         HashSet<Feature> pacificaH22Features = new HashSet<Feature>();
         pacificaH22Features.add(PowerSlidingDoors);
         pacificaH22Features.add(HybridEngine);
         pacificaHybrid22.setFeatures(pacificaH22Features);
 
+
         HashSet<Feature> pacificaH21Features = new HashSet<Feature>();
         pacificaH21Features.add(PowerSlidingDoors);
         pacificaH21Features.add(HybridEngine);
         pacificaHybrid21.setFeatures(pacificaH21Features);
+
 
 //----------------packages----------------\\
         HashSet<Feature> Theater = new HashSet<Feature>();
@@ -83,6 +86,7 @@ public class App {
         safety.setFeatures(Safety);
 
 
+
 //----------------trims----------------\\
 //PACIFICA 2022
         HashSet<Package> trimtouring1 = new HashSet<Package>();
@@ -97,6 +101,7 @@ public class App {
         trimlimited1F.add(HandsFreeSlidingDoors);
         limited1.setFeatures(trimlimited1F);
 
+
         HashSet<Feature> trimpinnacle1F = new HashSet<Feature>();
         Trim pinnacle1 = new Trim("Pinnacle", 42000, pacifica);
         trimpinnacle1F.add(LeatherSeats);
@@ -105,6 +110,7 @@ public class App {
         trimpinnacle1F.add(FireTV);
         trimpinnacle1F.add(AWD);
         pinnacle1.setFeatures(trimpinnacle1F);
+
 
 
 //PACIFICA Hybrid 2022
@@ -120,6 +126,7 @@ public class App {
         trimlimited2F.add(HandsFreeSlidingDoors);
         limited2.setFeatures(trimlimited2F);
 
+
         HashSet<Feature> trimpinnacle2F = new HashSet<Feature>();
         Trim pinnacle2 = new Trim("Pinnacle", 34000, pacificaHybrid22);
         trimpinnacle2F.add(LeatherSeats);
@@ -127,6 +134,7 @@ public class App {
         trimpinnacle2F.add(RearScreens);
         trimpinnacle2F.add(FireTV);
         pinnacle2.setFeatures(trimpinnacle2F);
+
 
 
 
@@ -144,6 +152,7 @@ public class App {
         trimlimited3F.add(HandsFreeSlidingDoors);
         limited3.setFeatures(trimlimited3F);
 
+
         HashSet<Feature> trimpinnacle3F = new HashSet<Feature>();
         Trim pinnacle3 = new Trim("Pinnacle", 52000, pacificaHybrid21);
         trimpinnacle3F.add(LeatherSeats);
@@ -151,6 +160,7 @@ public class App {
         trimpinnacle3F.add(RearScreens);
         trimpinnacle3F.add(CruiseControl);
         pinnacle3.setFeatures(trimpinnacle3F);
+
 
 
 //---------------------available packages ----------------------------------------------\\
@@ -220,20 +230,6 @@ public class App {
     }
     public static void VINlookUp()
     {
-
-//        EntityManagerFactory factory = Persistence.createEntityManagerFactory("project3");
-//        EntityManager em = factory.createEntityManager();
-//        Scanner plsss = new Scanner(System.in);
-//        System.out.println("Enter the VIN of an automobile. (I tested with 12345abcde)");
-//        //String userName = plsss.nextLine();
-//        //Automobile testCar = em.find(Automobile.class, userName);
-//        Automobile testCar = em.find(Automobile.class, "12345abcde");
-//        System.out.println(testCar);
-//        System.out.println(testCar.getTrim().getModel().getYear()
-//                + " " + testCar.getTrim().getModel().getName()
-//                + " " + testCar.getTrim().getName());
-//        System.out.println(testCar.stickerPrice());
-
         Scanner scanny = new Scanner(System.in);
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("Project3DB");
         EntityManager em = factory.createEntityManager();
@@ -241,16 +237,46 @@ public class App {
         String VIN = scanny.nextLine();
 
         var namedAutomobile = em.createQuery("SELECT m FROM Automobiles m WHERE "
-                + "m.VIN = ?1", Automobile.class);
+                + "m.vin = ?1", Automobile.class);
         namedAutomobile.setParameter(1, VIN);
         try {
             Automobile requested = namedAutomobile.getSingleResult();
             System.out.println("Your requested : " + requested);
         }
         catch (NoResultException ex) {
-            System.out.println("Museum with name '" + VIN + "' not found.");
+            System.out.println("Automobile with vin '" + VIN + "' not found.");
         }
-    }
+       // System.out.println(namedAutomobile);
+        System.out.print(namedAutomobile.getSingleResult().getTrim().getModel().getYear());
+        System.out.print(" " + namedAutomobile.getSingleResult().getTrim().getModel().getName());
+        System.out.print(" " + namedAutomobile.getSingleResult().getTrim().getName() + " \n");
+        System.out.println(namedAutomobile.getSingleResult().stickerPrice());
+        Set<Feature> getfeatures  = new HashSet<Feature>();
+        getfeatures = namedAutomobile.getSingleResult().getFeatures();
+        List<String> featurelist = new ArrayList<>();
+        System.out.print("Features: \n");
+        for (Feature p : getfeatures){
+            featurelist.add(p.getName());
+        }
+        Collections.sort(featurelist);
+        for (String j : featurelist) {
+            System.out.println(j);
+
+        }
+   }
+
+   public static void featurely()
+   {
+       EntityManagerFactory factory = Persistence.createEntityManagerFactory("Project3DB");
+       EntityManager em = factory.createEntityManager();
+       Scanner scanny = new Scanner(System.in);
+       System.out.println("Enter the name of a feature ");
+       String fname = scanny.nextLine();
+       String jpaQuery = "SELECT m FROM Automobiles m JOIN m.trim t JOIN t.features tf WHERE tf.name = "
+       var namedAutomobile = em.createQuery("SELECT m FROM Automobiles m WHERE "
+               + "m.vin = ?1", Automobile.class);
+       namedAutomobile.setParameter(1, VIN);
+   }
     public static void main(String[] args) throws Exception {
 
         Instantiate();
