@@ -241,12 +241,12 @@ public class App {
         namedAutomobile.setParameter(1, VIN);
         try {
             Automobile requested = namedAutomobile.getSingleResult();
-            System.out.println("Your requested : " + requested);
+
         }
         catch (NoResultException ex) {
             System.out.println("Automobile with vin '" + VIN + "' not found.");
         }
-       // System.out.println(namedAutomobile);
+        // System.out.println(namedAutomobile);
         System.out.print(namedAutomobile.getSingleResult().getTrim().getModel().getYear());
         System.out.print(" " + namedAutomobile.getSingleResult().getTrim().getModel().getName());
         System.out.print(" " + namedAutomobile.getSingleResult().getTrim().getName() + " \n");
@@ -263,34 +263,36 @@ public class App {
             System.out.println(j);
 
         }
-   }
+    }
 
-   public static void featurely()
-   {
-       EntityManagerFactory factory = Persistence.createEntityManagerFactory("Project3DB");
-       EntityManager em = factory.createEntityManager();
-       Scanner scanny = new Scanner(System.in);
-       System.out.println("Enter the name of a feature ");
-       String fname = scanny.nextLine();
-       String jpaQuery = "SELECT m FROM Automobiles m JOIN m.trim t JOIN t.features tf WHERE tf.name = "
-       var namedAutomobile = em.createQuery("SELECT m FROM Automobiles m WHERE "
-               + "m.vin = ?1", Automobile.class);
-       namedAutomobile.setParameter(1, VIN);
-   }
+    public static void featurely()
+    {
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("Project3DB");
+        EntityManager em = factory.createEntityManager();
+        Scanner scanny = new Scanner(System.in);
+        System.out.println("Enter the name of a feature ");
+        String fname = scanny.nextLine();
+        String jpaQuery = "SELECT m FROM Automobiles m JOIN m.Trims n JOIN n.Models t JOIN t.AvailablePackages tf "
+                + "LEFT JOIN tf.Features" + " WHERE tf.name = " + fname;
+       // Automobile auto = em.createQuery(jpaQuery, Automobile.class);
+        System.out.println("could not figure out the jpql query on time :/");
+
+    }
     public static void main(String[] args) throws Exception {
 
         Instantiate();
         Scanner scanny = new Scanner(System.in);
         System.out.println("Enter your choice: \n" + "1. Instantiate model \n" + "2. Automobile lookup \n" + "3. Feature search \n");
         int choice = scanny.nextInt();
-        if(choice == 1)
-        {
+
+        if (choice == 1) {
             Instantiate();
-        }
-        else if(choice ==2)
-        {
+        } else if (choice == 2) {
             VINlookUp();
+        } else if (choice == 3) {
+            featurely();
         }
+
     }
 }
 
